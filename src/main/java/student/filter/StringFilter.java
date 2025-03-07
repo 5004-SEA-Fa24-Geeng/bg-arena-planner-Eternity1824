@@ -46,6 +46,14 @@ public class StringFilter extends Filter {
                     return !gameValue.equals(compareValue);
                 case CONTAINS:
                     return gameValue.contains(compareValue);
+                case GREATER_THAN:
+                    return gameValue.compareTo(compareValue) > 0;
+                case LESS_THAN:
+                    return gameValue.compareTo(compareValue) < 0;
+                case GREATER_THAN_EQUALS:
+                    return gameValue.compareTo(compareValue) >= 0;
+                case LESS_THAN_EQUALS:
+                    return gameValue.compareTo(compareValue) <= 0;
                 default:
                     return true;
             }
