@@ -175,7 +175,139 @@ You should feel free to number your brainstorm.
 Go through your completed code, and update your class diagram to reflect the final design. Make sure you check the file in the browser on github.com to make sure it is rendering correctly. It is normal that the two diagrams don't match! Rarely (though possible) is your initial design perfect. 
 
 For the final design, you just need to do a single diagram that includes both the original classes and the classes you added. 
+```mermaid
+classDiagram
+    class BGArenaPlanner {
+        <<application>>
+        + main(String[] args)
+    }
 
+    class BoardGame {
+        - String name
+        - int minPlayers
+        - int maxPlayers
+        - int minTime
+        - int maxTime
+        - double difficulty
+        - double rating
+        - int yearPublished
+        + getName() : String
+        + getMinPlayers() : int
+        + getMaxPlayers() : int
+        + getMinTime() : int
+        + getMaxTime() : int
+        + getDifficulty() : double
+        + getRating() : double
+        + getYearPublished() : int
+        + toString() : String
+    }
+
+    class ConsoleApp {
+        + start()
+        - handleUserInput()
+    }
+
+    class GameData {
+        - ...
+    }
+
+    class GameList {
+        + GameList()
+        + addToList(String str, Stream~BoardGame~ filtered) : void
+        + removeFromList(String str) : void
+        + clear() : void
+        + getGameNames() : List~String~
+        + count() : int
+        + saveGame(String filename) : void
+    }
+
+    class GamesLoader {
+        + GamesLoader()
+        + loadGames(String filePath) : List~BoardGame~
+    }
+
+    class Operations {
+        <<enumeration>>
+        // EQUALS, GREATER_THAN, LESS_THAN, etc.
+    }
+
+    class Planner {
+        + Planner(Set~BoardGame~ games)
+        + filter(String) : Stream~BoardGame~
+        + filter(String, GameData) : Stream~BoardGame~
+        + filter(String, GameData, boolean) : Stream~BoardGame~
+        + reset() : void
+    }
+
+    class GameComparator {
+        <<utility>>
+        + createComparator(GameData column, boolean ascending) : Comparator~BoardGame~
+    }
+
+    class IGameList {
+        <<interface>>
+        + addToList(String str, Stream~BoardGame~ filtered) : void
+        + removeFromList(String str) : void
+        + clear() : void
+        + getGameNames() : List~String~
+        + count() : int
+        + saveGame(String filename) : void
+    }
+
+    class IPlanner {
+        <<interface>>
+        + filter(String criteria) : Stream~BoardGame~
+        + filter(String criteria, GameData sortOn) : Stream~BoardGame~
+        + filter(String criteria, GameData sortOn, boolean ascending) : Stream~BoardGame~
+        + reset() : void
+    }
+
+    class Filter {
+        <<abstract>>
+        - GameData column
+        - Operations operation
+        - String value
+        + Filter(GameData column, Operations operation, String value)
+        + createPredicate() : Predicate~BoardGame~
+        + getColumn() : GameData
+        + getOperation() : Operations
+        + getValue() : String
+        + createFilter(GameData column, Operations operation, String value) : Filter
+    }
+
+    class IntFilter {
+        + IntFilter(GameData column, Operations operation, String value)
+        + createPredicate() : Predicate~BoardGame~
+    }
+
+    class DoubleFilter {
+        + DoubleFilter(GameData column, Operations operation, String value)
+        + createPredicate() : Predicate~BoardGame~
+    }
+
+    class StringFilter {
+        + StringFilter(GameData column, Operations operation, String value)
+        + createPredicate() : Predicate~BoardGame~
+    }
+
+%% RELATIONSHIPS
+    GameList ..|> IGameList
+    Planner ..|> IPlanner
+    Filter <|-- IntFilter
+    Filter <|-- DoubleFilter
+    Filter <|-- StringFilter
+    BGArenaPlanner --> Planner : "uses"
+    BGArenaPlanner --> GameList : "uses"
+    BGArenaPlanner --> ConsoleApp : "uses"
+    ConsoleApp --> Planner : "uses"
+    ConsoleApp --> GameList : "uses"
+    Planner --> BoardGame : "filters/sorts list of"
+    GameList --> BoardGame : "stores list of"
+    GamesLoader --> BoardGame : "creates"
+    GamesLoader --> GameList : "populates"
+    Planner --> Operations : "uses"
+    Planner --> GameComparator : "uses"
+```
 > [!WARNING]
 > If you resubmit your assignment for manual grading, this is a section that often needs updating. You should double check with every resubmit to make sure it is up to date.
 
@@ -188,4 +320,6 @@ For the final design, you just need to do a single diagram that includes both th
 > [!IMPORTANT]
 > The value of reflective writing has been highly researched and documented within computer science, from learning to information to showing higher salaries in the workplace. For this next part, we encourage you to take time, and truly focus on your retrospective.
 
-Take time to reflect on how your design has changed. Write in *prose* (i.e. do not bullet point your answers - it matters in how our brain processes the information). Make sure to include what were some major changes, and why you made them. What did you learn from this process? What would you do differently next time? What was the most challenging part of this process? For most students, it will be a paragraph or two. 
+Take time to reflect on how your design has changed. Write in *prose* (i.e. do not bullet point your answers - it matters in how our brain processes the information). Make sure to include what were some major changes, and why you made them. What did you learn from this process? What would you do differently next time? What was the most challenging part of this process? For most students, it will be a paragraph or two.  
+  
+During the design process, I improved encapsulation by making fields private and using getter methods, ensuring better structure. I also refined class relationships and interface implementations, which became clearer when generating the UML diagram. The biggest challenge was debugging filtering logic and handling test failures. This process taught me the importance of refining designs iteratively and catching issues early through proper modeling.

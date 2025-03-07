@@ -6,7 +6,7 @@ import java.util.Comparator;
  * Factory class for creating comparators to sort BoardGame objects.
  * Provides comparators for different columns and sorting directions.
  */
-public class GameComparator {
+public final class GameComparator {
 
     private GameComparator() {
         throw new AssertionError("Cannot instantiate GameComparator");
