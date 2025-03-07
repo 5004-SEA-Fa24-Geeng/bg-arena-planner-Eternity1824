@@ -13,11 +13,121 @@ Place your class diagrams below. Make sure you check the file in the browser on 
 Provide a class diagram for the provided code as you read through it.  For the classes you are adding, you will create them as a separate diagram, so for now, you can just point towards the interfaces for the provided code diagram.
 
 
+```mermaid
+classDiagram
+    class BGArenaPlanner {
+        <<application>>
+        + main(String[] args)
+    %% Additional methods, fields, etc.
+    }
+
+    class BoardGame {
+        - String name
+        - int minPlayers
+        - int maxPlayers
+        - int playingTime
+        - double difficulty
+        - double rating
+    %% etc.
+        + getName() : String
+        + getMinPlayers() : int
+        + getMaxPlayers() : int
+        + getPlayingTime() : int
+        + getDifficulty() : double
+        + getRating() : double
+        + toString() : String
+    }
+
+    class ConsoleApp {
+        + start()
+        - handleUserInput()
+    %% more methods if you want
+    }
+
+    class GameData {
+        - ...
+    }
+
+    class GameList {
+        + GameList()
+        + addGame(BoardGame game) : void
+        + removeGame(String gameName) : boolean
+        + getGames() : List~BoardGame~
+        + size() : int
+    }
+
+    class GamesLoader {
+        + GamesLoader()
+        + loadGames(String filePath) : List~BoardGame~
+    }
+
+    class Operations {
+        <<enumeration>>
+    %% e.g. EQUALS, GREATER_THAN, LESS_THAN, etc.
+    }
+
+    class Planner {
+        + Planner()
+        + filter(String) : List~BoardGame~
+        + sort(String) : List~BoardGame~
+    }
+
+    class IGameList {
+        <<interface>>
+        + addGame(BoardGame game) : void
+        + removeGame(String gameName) : boolean
+        + getGames() : List~BoardGame~
+    }
+
+    class IPlanner {
+        <<interface>>
+        + filter(String criteria) : List~BoardGame~
+        + sort(String sortSpec) : List~BoardGame~
+    }
+
+%% RELATIONSHIPS
+    GameList ..|> IGameList
+    Planner ..|> IPlanner
+    BGArenaPlanner --> Planner : "uses"
+    BGArenaPlanner --> GameList : "uses"
+    BGArenaPlanner --> ConsoleApp : "uses"
+    ConsoleApp --> Planner : "uses"
+    ConsoleApp --> GameList : "uses"
+    Planner --> BoardGame : "filters/sorts list of"
+    GameList --> BoardGame : "stores list of"
+    GamesLoader --> BoardGame : "creates"
+    GamesLoader --> GameList : "populates"
+    Planner --> Operations : "uses"
+```
 
 ### Your Plans/Design
 
 Create a class diagram for the classes you plan to create. This is your initial design, and it is okay if it changes. Your starting points are the interfaces. 
+```mermaid
+classDiagram
+    class Planner {
+      + filter(String) : List~BoardGame~
+      + sort(String) : List~BoardGame~
+      - Filter filterHelper
+      - SortHelper sortHelper
+      ...
+    }
 
+    class Filter {
+      + applyFilters(List~BoardGame~, String filterSpec) : List~BoardGame~
+      - parseFilterSpec(String filterSpec) : List~FilterCriteria~
+      ...
+    }
+
+    class SortHelper {
+      + sortGames(List~BoardGame~, String sortSpec) : List~BoardGame~
+      - parseSortSpec(String sortSpec) : List~SortCriteria~
+      ...
+    }
+
+    Planner --> Filter : "has-a"
+    Planner --> SortHelper : "has-a"
+```
 
 
 
@@ -36,8 +146,26 @@ Write a test (in english) that you can picture for the class diagram you have cr
 
 You should feel free to number your brainstorm. 
 
-1. Test 1..
-2. Test 2..
+1.	GameList Tests  
+1.1. Add a Game to an empty GameList and confirm it appears in getGames().  
+1.2. Remove a Game that exists; confirm true is returned and the list is updated.  
+1.3. Remove a Game that does not exist; confirm false is returned and the list is unchanged.  
+1.4. Adding duplicate games (if duplicates are allowed or disallowed) to see how it behaves.  
+2.	Planner Filter Tests  
+2.1. Filter by minimum players with >= operator. Check only games that meet or exceed that min.  
+2.2. Filter by maximum time with <= operator.  
+2.3. Filter by name containing some substring.  
+2.4. Chain multiple filters at once (e.g., max time <= 60 and difficulty >= 3.0).  
+3.	Planner Sort Tests  
+3.1. Sort by name ascending.  
+3.2. Sort by difficulty descending.  
+3.3. Sort by rating, confirm stable ordering for ties (if relevant).  
+3.4. Sort with multiple criteria (e.g., name ascending, then rating descending).  
+4.	Edge Cases  
+4.1. Attempting to filter or sort an empty list.  
+4.2. Very large or invalid input strings for filtering/sorting specs.  
+4.3. Non‐numeric input where numeric filter is expected.  
+
 
 
 
