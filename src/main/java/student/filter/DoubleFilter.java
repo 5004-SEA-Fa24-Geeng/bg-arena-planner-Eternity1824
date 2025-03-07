@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * Filter implementation for double-based columns such as rating and difficulty.
  * Handles floating-point comparison with appropriate precision.
  */
-public class DoubleFilter extends Filter{
+public class DoubleFilter extends Filter {
     /**
      * Constructor for DoubleFilter.
      * 
@@ -37,7 +37,7 @@ public class DoubleFilter extends Filter{
             return game -> {
                 double gameValue = 0.0;
 
-                switch(column) {
+                switch (column) {
                     case RATING:
                         gameValue = game.getRating();
                         break;

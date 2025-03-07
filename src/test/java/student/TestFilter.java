@@ -46,7 +46,6 @@ public class TestFilter {
         
         assertFalse(predicate.test(chess));
         assertTrue(predicate.test(monopoly));  // Monopoly contains "on"
-        assertTrue(predicate.test(pandemic));  // Pandemic contains "on"
     }
 
     // 测试字符串不等于过滤器

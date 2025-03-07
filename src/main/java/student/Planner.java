@@ -14,7 +14,9 @@ import java.util.stream.Stream;
  * functionality for BoardGame objects.
  */
 public class Planner implements IPlanner {
+    /** set for all games */
     private final Set<BoardGame> allGames;
+    /** set for games after filter */
     private Set<BoardGame> filteredGames;
 
     /**
@@ -63,6 +65,8 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
+        Set<BoardGame> workingSet = new HashSet<>(filteredGames);
+
         if (filter == null || filter.trim().isEmpty()) {
             return filteredGames.stream()
                     .sorted(GameComparator.createComparator(sortOn, ascending));
@@ -74,12 +78,13 @@ public class Planner implements IPlanner {
         List<Predicate<BoardGame>> predicates = parseFilters(filter);
 
         for (Predicate<BoardGame> predicate : predicates) {
-            filteredGames = filteredGames.stream()
+            workingSet = filteredGames.stream()
                     .filter(predicate)
                     .collect(HashSet::new, HashSet::add, HashSet::addAll);
         }
+        filteredGames = workingSet;
 
-        return filteredGames.stream()
+        return workingSet.stream()
                 .sorted(GameComparator.createComparator(sortOn, ascending));
     }
 

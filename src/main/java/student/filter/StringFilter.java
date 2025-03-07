@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * Filter implementation for string-based columns like game names.
  * Supports operations such as equals, not equals, and contains.
  */
-public class StringFilter extends Filter{
+public class StringFilter extends Filter {
     /**
      * Constructor for StringFilter.
      * 

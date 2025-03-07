@@ -35,7 +35,7 @@ public class IntFilter extends Filter {
             return boardGame -> {
                 int gameValue = 0;
 
-                switch(column) {
+                switch (column) {
                     case MIN_PLAYERS:
                         gameValue = boardGame.getMinPlayers();
                         break;
@@ -53,6 +53,7 @@ public class IntFilter extends Filter {
                         break;
                     case YEAR:
                         gameValue = boardGame.getYearPublished();
+                        break;
                     default:
                         return true;
                 }

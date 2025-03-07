@@ -12,6 +12,7 @@ import java.util.stream.Stream;
  * that a user wants to play.
  */
 public class GameList implements IGameList {
+    /** recording the games*/
     private final Set<BoardGame> games;
     
     /**

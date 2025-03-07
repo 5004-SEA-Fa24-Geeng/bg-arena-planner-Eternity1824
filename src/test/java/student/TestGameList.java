@@ -8,6 +8,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -26,7 +27,7 @@ public class TestGameList {
     @BeforeEach
     public void setUp() {
         gameList = new GameList();
-        testGames = new HashSet<>();
+        testGames = new LinkedHashSet<>();
         
         // 创建一些测试游戏
         catan = new BoardGame("Catan", 1, 3, 4, 60, 120, 2.5, 1, 4.5, 1995);
