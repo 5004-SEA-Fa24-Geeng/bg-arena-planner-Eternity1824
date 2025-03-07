@@ -65,20 +65,19 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
-        Set<BoardGame> workingSet = new HashSet<>(filteredGames);
-
         if (filter == null || filter.trim().isEmpty()) {
             return filteredGames.stream()
                     .sorted(GameComparator.createComparator(sortOn, ascending));
         }
 
-        // Remove spaces and convert to lowercase
-        filter = filter.replaceAll("\\s", "").toLowerCase();
+        // don't remove space inside string
+        filter = filter.trim().toLowerCase();
 
         List<Predicate<BoardGame>> predicates = parseFilters(filter);
 
+        Set<BoardGame> workingSet = new HashSet<>(filteredGames);
         for (Predicate<BoardGame> predicate : predicates) {
-            workingSet = filteredGames.stream()
+            workingSet = workingSet.stream()
                     .filter(predicate)
                     .collect(HashSet::new, HashSet::add, HashSet::addAll);
         }
@@ -132,18 +131,21 @@ public class Planner implements IPlanner {
             return null;
         }
 
+        // use trim() for each part，ensure no other extra space
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
             return null;
         }
+        String columnStr = parts[0].trim();
+        String valueStr = parts[1].trim();
 
         GameData column;
         try {
-            column = GameData.fromString(parts[0]);
+            column = GameData.fromString(columnStr);
         } catch (IllegalArgumentException e) {
             return null;
         }
 
-        return Filter.createFilter(column, operator, parts[1]).createPredicate();
+        return Filter.createFilter(column, operator, valueStr).createPredicate();
     }
 }
