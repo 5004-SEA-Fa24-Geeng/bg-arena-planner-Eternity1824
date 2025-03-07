@@ -92,18 +92,16 @@ public class GameList implements IGameList {
             return;
         }
 
-        // Collect the filtered results into a list and sort them by game name to ensure consistent order
-        List<BoardGame> filteredList = filtered.collect(Collectors.toList());
+        List<BoardGame> filteredList = new ArrayList<>(filtered.collect(Collectors.toList()));
         filteredList.sort(Comparator.comparing(BoardGame::getName, String.CASE_INSENSITIVE_ORDER));
 
-        // if input is a digit
         if (str.matches("\\d+")) {
             int index = Integer.parseInt(str) - 1;
             if (index < 0 || index >= filteredList.size()) {
                 throw new IllegalArgumentException("Index out of bounds! " + str);
             }
             games.add(filteredList.get(index));
-        } else if (str.matches("\\d+-\\d+")) { // 如果输入的是范围
+        } else if (str.matches("\\d+-\\d+")) {
             String[] parts = str.split("-");
             int start = Integer.parseInt(parts[0]) - 1;
             int end = Integer.parseInt(parts[1]) - 1;
@@ -115,7 +113,7 @@ public class GameList implements IGameList {
             for (int i = start; i <= end; i++) {
                 games.add(filteredList.get(i));
             }
-        } else { // if input is a game name
+        } else {
             boolean found = false;
             for (BoardGame game : filteredList) {
                 if (game.getName().toLowerCase().equals(str)) {
@@ -124,7 +122,6 @@ public class GameList implements IGameList {
                     break;
                 }
             }
-
             if (!found) {
                 throw new IllegalArgumentException("Game not found! " + str);
             }
@@ -155,20 +152,19 @@ public class GameList implements IGameList {
         if (str.matches("\\d+")) {
             int index = Integer.parseInt(str) - 1;
             if (index < 0 || index >= gameList.size()) {
-                throw new IllegalArgumentException("Index out of bounds!" + str);
+                throw new IllegalArgumentException("Index out of bounds! " + str);
             }
             games.remove(gameList.get(index));
         } else if (str.matches("\\d+-\\d+")) {
             String[] parts = str.split("-");
             int start = Integer.parseInt(parts[0]) - 1;
             int end = Integer.parseInt(parts[1]) - 1;
-
             if (start < 0 || start > end || end >= gameList.size()) {
-                throw new IllegalArgumentException("Index range!" + str);
+                throw new IllegalArgumentException("Index range! " + str);
             }
 
             for (int i = start; i <= end; i++) {
-                gameList.remove(gameList.get(i));
+                games.remove(gameList.get(i));
             }
         } else {
             boolean found = false;
@@ -180,7 +176,7 @@ public class GameList implements IGameList {
                 }
             }
             if (!found) {
-                throw new IllegalArgumentException("Game not found!" + str);
+                throw new IllegalArgumentException("Game not found! " + str);
             }
         }
     }
