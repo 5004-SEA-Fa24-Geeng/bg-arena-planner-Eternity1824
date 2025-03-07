@@ -32,14 +32,14 @@ public class StringFilter extends Filter {
     public Predicate<BoardGame> createPredicate() {
         return game -> {
             String gameValue = "";
-            if (column == GameData.NAME) {
+            if (getColumn() == GameData.NAME) {
                 gameValue = game.getName();
             }
 
             gameValue = gameValue.toLowerCase();
-            String compareValue = value.toLowerCase();
+            String compareValue = getValue().toLowerCase();
 
-            switch (operation) {
+            switch (getOperation()) {
                 case EQUALS:
                     return gameValue.equals(compareValue);
                 case NOT_EQUALS:

@@ -6,6 +6,8 @@ import student.Operations;
 
 import java.util.function.Predicate;
 
+import static student.Operations.EQUALS;
+
 /**
  * Filter implementation for integer-based columns such as minimum players,
  * maximum players, play time, rank, and year published.
@@ -31,11 +33,11 @@ public class IntFilter extends Filter {
     @Override
     public Predicate<BoardGame> createPredicate() {
         try {
-            int intValue = Integer.parseInt(value);
+            int intValue = Integer.parseInt(getValue());
             return boardGame -> {
                 int gameValue = 0;
 
-                switch (column) {
+                switch (getColumn()) {
                     case MIN_PLAYERS:
                         gameValue = boardGame.getMinPlayers();
                         break;
@@ -58,7 +60,7 @@ public class IntFilter extends Filter {
                         return true;
                 }
 
-                switch (operation) {
+                switch (getOperation()) {
                     case EQUALS:
                         return gameValue == intValue;
                     case NOT_EQUALS:

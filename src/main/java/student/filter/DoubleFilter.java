@@ -32,12 +32,12 @@ public class DoubleFilter extends Filter {
     @Override
     public Predicate<BoardGame> createPredicate() {
         try {
-            double doubleValue = Double.parseDouble(value);
+            double doubleValue = Double.parseDouble(getValue());
 
             return game -> {
                 double gameValue = 0.0;
 
-                switch (column) {
+                switch (getColumn()) {
                     case RATING:
                         gameValue = game.getRating();
                         break;
@@ -48,7 +48,7 @@ public class DoubleFilter extends Filter {
                         return true;
                 }
 
-                switch (operation) {
+                switch (getOperation()) {
                     case EQUALS:
                         return Math.abs(gameValue - doubleValue) < 0.0001;
                     case NOT_EQUALS:

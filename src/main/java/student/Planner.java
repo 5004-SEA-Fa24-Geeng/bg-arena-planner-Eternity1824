@@ -14,9 +14,9 @@ import java.util.stream.Stream;
  * functionality for BoardGame objects.
  */
 public class Planner implements IPlanner {
-    /** set for all games */
+    /** set for all games. */
     private final Set<BoardGame> allGames;
-    /** set for games after filter */
+    /** set for games after filter. */
     private Set<BoardGame> filteredGames;
 
     /**

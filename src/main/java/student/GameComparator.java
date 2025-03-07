@@ -7,7 +7,10 @@ import java.util.Comparator;
  * Provides comparators for different columns and sorting directions.
  */
 public class GameComparator {
-    
+
+    private GameComparator() {
+        throw new AssertionError("Cannot instantiate GameComparator");
+    }
     /**
      * Creates a comparator for BoardGame objects based on the specified column and sort direction.
      * 

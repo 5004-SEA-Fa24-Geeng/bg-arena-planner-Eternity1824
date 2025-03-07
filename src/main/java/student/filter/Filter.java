@@ -11,12 +11,12 @@ import java.util.function.Predicate;
  * This class serves as a base for specific filter implementations.
  */
 public abstract class Filter {
-    // The column to filter on
-    protected final GameData column;
-    // The operation to apply
-    protected final Operations operation;
-    // The value to compare against
-    protected final String value;
+    /** The column to filter on. */
+    private final GameData column;
+    /** The operation to apply. */
+    private final Operations operation;
+    /** The value to compare against. */
+    private final String value;
 
     /**
      * Constructor for the Filter class.
@@ -29,6 +29,33 @@ public abstract class Filter {
         this.column = column;
         this.operation = operation;
         this.value = value;
+    }
+
+    /**
+     * Returns the column to filter on.
+     *
+     * @return the game data column
+     */
+    public GameData getColumn() {
+        return column;
+    }
+
+    /**
+     * Returns the operation to apply.
+     *
+     * @return the filter operation
+     */
+    public Operations getOperation() {
+        return operation;
+    }
+
+    /**
+     * Returns the value to compare against.
+     *
+     * @return the filter value
+     */
+    public String getValue() {
+        return value;
     }
 
     /**
